@@ -75,68 +75,79 @@ export default class Blog544 {
   /** Remove all data for this blog */
   async clear() {
     //@TODO
+    this.myMap_a = new Map();
+    this.myMap_c = new Map();
+    this.myMap_u = new Map();
   }
 
   /** Create a blog object as per createSpecs and
    * return id of newly created object
    */
   async create(category, createSpecs) {
-    if(category == 'comments'){
-      this.count = this.count + 1;
-      const obj_c = this.validator.validate(category, 'create', createSpecs);
-      let a = (Math.random()*1000).toFixed(2);
-      //a.toFixed(2);
-      obj_c.id = a;
-      let x = this.myMap_c.set(a, obj_c);
-      //x.set(x.articleId, this.count);
-      //console.log(this.myMap_c);
-      //return a;
-    }
 
-    else if(category == 'users'){
-      const obj_u = this.validator.validate(category, 'create', createSpecs);
-      //const obj_c = this.validator.validate(category, 'create', createSpecs);
-      let b = (Math.random()*1000).toFixed(2);
-      //b.toFixed(2);
-      let y = this.myMap_u.set(b, obj_u);
-      //console.log(obj_u.id);
-      //return b;
-    }
-    else {
-      const obj_a = this.validator.validate(category, 'create', createSpecs);
-      let c = (Math.random()*1000).toFixed(2);
-      //c.toFixed(2);
-      obj_a.id = c;
+    const obj = this.validator.validate(category, 'create', createSpecs);
 
-      let z = this.myMap_a.set(c, obj_a);
-      //obj_a.set(obj_a.id, this.count);
-      return c;
-    }
-    //console.log(this.count);
-    //const obj = this.validator.validate(category, 'create', createSpecs);
-    //let x = this.myMap.set(category, obj);
+  //  if(this.find(category, {id:obj.id}).length > 0){
+  //    const msg = `object with id ${obj.id} already exists for ${category}`;
+  //    throw [ new BlogError('EXISTS', msg)];
+  //  }
+  //  else {
+
+      if(category == 'users'){
+        let y = this.myMap_u.set(obj.id, obj);
+      }
+
+      else if(category == 'comments'){
+        var i = 0;
+        this.count = this.count + 1;
+        const iterator1 = this.myMap_u.values();
+        const iterator2 = this.myMap_u.keys();
+        let user_size = this.myMap_u.size;
+
+        //for (i=0;i<user_size;i++){
+          let bb = iterator1.next().value;
+          //console.log(obj.commenterId);
+        //  if(obj.commenterId === bb.id){
+            let a = (Math.random()*1000).toFixed(2);
+            obj.id = a;
+            let x = this.myMap_c.set(a, obj);
+        //    break;
+        //  }
+        /*  else{
+            const msg = `object with commenterId ${obj.commenterId} does exists in users`;
+            throw [ new BlogError('NOT EXISTS', msg)];
+          }*/
+        //}
+      }
+
+
+      else {
+
+        var i = 0;
+        this.count = this.count + 1;
+        const iterator1 = this.myMap_u.values();
+        const iterator2 = this.myMap_u.keys();
+        let user_size = this.myMap_u.size;
+
+        //for (i=0;i<user_size;i++){
+          let bb = iterator1.next().value;
+          //if(obj.authorId === bb.id){
+            let c = (Math.random()*1000).toFixed(2);
+            obj.id = c;
+            let z = this.myMap_a.set(c, obj);
+            return c;
+          //}
+        /*  else{
+            const msg = `object with authorId ${obj.authorId} does exists in users`;
+            throw [ new BlogError('NOT EXISTS', msg)];
+          }*/
+      //}
+    //}
+
 
     //@TODO
-    //console.log(typeof(x));
-    //console.log(x);
-    //let y = this.obj1.push(x);
-    //this.myMap = obj;
-    /**obj.id = 1234;
-    obj.fname = "Tejesh";
-    obj.email = "ta@h.c";
-    obj.lname = "Agrawal";
-    obj.roles = "Author";
-    obj.creationTime = Date.now();
-    obj.updateTime = Date.now();**/
-
-  //  $.getJSON("~/Desktop/i544/i544/submit/cs544/data/users/harry.json", function(json) {
-  //    obj = JSON.stringify(json);
-  //    console.log(obj); // this will show the info it in firebug console
-  //  });
-    //console.log("Hello constructor");
-    //console.log(this.obj1.type);
-    //return this.obj1;
   }
+}
 
   /** Find blog objects from category which meets findSpec.  Returns
    *  list containing up to findSpecs._count matching objects (empty
@@ -145,156 +156,169 @@ export default class Blog544 {
   async find(category, findSpecs={}) {
     const obj = this.validator.validate(category, 'find', findSpecs);
     //@TODO
-    //console.log(obj);
-    //console.log(this.myMap_c);
-    if (category === 'users'){
-      //if(findSpec.id === )
-        var i = 0;
-        var dd = [];
-        const iterator1 = this.myMap_u.values();
-        let user_size = this.myMap_u.size;
-        if(Object.keys(obj).length === 0){
-          for(i=0;i<DEFAULT_COUNT;i++){
-            let bb = iterator1.next().value;
-            //console.log(bb)
-            dd.push(bb);
-            //return [bb];
-          }
-          return dd;
-        }
-        else if(Object.entries(obj)[0][0] == '_count'){
-          for(i=0;i<obj._count;i++){
-            let bb = iterator1.next().value;
-            //console.log(bb)
-            dd.push(bb);
-            //return [bb];
-          }
-          return dd;
-        }
-        else {
-          let aa = Object.entries(obj)[0][1];
-          //console.log(Object.entries(obj)[0][0]);
-          //console.log(bb.id);
-          for(i=0;i<user_size;i++){
-            let bb = iterator1.next().value;
-            if(aa === bb.id ){
-              return [bb];
-              break;
-              //let bb = iterator1.next().value;
-            }
-          }
-        }
+    //console.log(this.myMap_u);
 
-
-        //console.log(Object.entries(obj)[0][1]);
-        //console.log(this.myMap_u.has(aa));
-
-
+    if(this.myMap_u.size <= 0 || this.myMap_c.size <= 0 || this.myMap_a.size <= 0){
+      const msg = `Data not exists for ${category}`;
+      throw [ new BlogError('No DATA', msg)];
     }
-    else if (category === 'articles'){
-      //if(findSpec.id === )
-        var i = 0;
-        var dd = [];
-        const iterator1 = this.myMap_a.values();
-        let article_size = this.myMap_a.size;
-        if(Object.keys(obj).length === 0){
-          for(i=0;i<DEFAULT_COUNT;i++){
-            let bb = iterator1.next().value;
-            dd.push(bb);
-            //return [bb];
-          }
-          return dd;
-        }
-        else if(Object.entries(obj)[0][0] == '_count'){
-          for(i=0;i<obj._count;i++){
-            let bb = iterator1.next().value;
-            //console.log(bb)
-            dd.push(bb);
-            //return [bb];
-          }
-          return dd;
-        }
-        else {
-          let aa = Object.entries(obj)[0][1];
-
-          //console.log(bb.id);
-          for(i=0;i<article_size;i++){
-            let bb = iterator1.next().value;
-            if(aa === bb.id || aa === bb.authorId){
+    else {
+      if (category === 'users'){
+        //if(this.myMap_u())
+          var i = 0;
+          var dd = [];
+          const iterator1 = this.myMap_u.values();
+          const iterator2 = this.myMap_u.keys();
+          let user_size = this.myMap_u.size;
+          if(Object.keys(obj).length === 0){
+            for(i=0;i<DEFAULT_COUNT;i++){
+              let bb = iterator1.next().value;
+              //console.log(bb)
+              dd.push(bb);
               //return [bb];
-              dd.push(bb)
-            //  break;
+            }
+            return dd;
+          }
+          else if(Object.entries(obj)[0][0] == '_count'){
+            for(i=0;i<obj._count;i++){
+              let bb = iterator1.next().value;
+              //console.log(bb)
+              dd.push(bb);
+              //return [bb];
+            }
+            return dd;
+          }
+          else {
+            let aa = Object.entries(obj)[0][1];
+            //console.log(Object.entries(obj)[0][0]);
+            //console.log(this.myMap_u.get(aa));
+            for(i=0;i<user_size;i++){
+              let bb = iterator1.next().value;
+              let cc = iterator2.next().value;
+              //console.log(bb.id);
+              if(aa === bb.id){
+                return [bb];
+                break;
+                //let bb = iterator1.next().value;
+              }
+              else if(this.myMap_u.get(aa) === undefined){
+                const msg = `object with id ${obj.id} doesn't exists for ${category}`;
+                throw [ new BlogError('NOT EXIST', msg)];
+                //break;
+              }
+            }
+          }
+
+
+          //console.log(Object.entries(obj)[0][1]);
+          //console.log(this.myMap_u.has(aa));
+
+
+      }
+      else if (category === 'articles'){
+        //if(findSpec.id === )
+          var i = 0;
+          var dd = [];
+          const iterator1 = this.myMap_a.values();
+          let article_size = this.myMap_a.size;
+          if(Object.keys(obj).length === 0){
+            for(i=0;i<DEFAULT_COUNT;i++){
+              let bb = iterator1.next().value;
+              dd.push(bb);
+              //return [bb];
+            }
+            return dd;
+          }
+          else if(Object.entries(obj)[0][0] == '_count'){
+            for(i=0;i<obj._count;i++){
+              let bb = iterator1.next().value;
+              //console.log(bb)
+              dd.push(bb);
+              //return [bb];
+            }
+            return dd;
+          }
+          else {
+            let aa = Object.entries(obj)[0][1];
+
+            //console.log(bb.id);
+            for(i=0;i<article_size;i++){
+              let bb = iterator1.next().value;
+              if(aa === bb.id || aa === bb.authorId){
+                //return [bb];
+                dd.push(bb)
+              //  break;
+                //let bb = iterator1.next().value;
+              }
+            }
+            return dd;
+          }
+
+
+          //console.log(Object.entries(obj)[0][1]);
+          //console.log(this.myMap_u.has(aa));
+
+
+      }
+
+      else if(category === 'comments') {
+        //if(findSpec.id === )
+        var i = 0;
+        var dd = [];
+        const iterator1 = this.myMap_c.values();
+        const iterator2 = this.myMap_c.keys();
+        let comments_size = this.myMap_c.size;
+        if(Object.keys(obj).length === 0){
+          for(i=0;i<DEFAULT_COUNT;i++){
+            let bb = iterator1.next().value;
+            let cc = iterator2.next().value;
+            //console.log(cc)
+            dd.push(bb);
+            //return dd;
+            //console.log(bb);
+          }
+          //console.log(dd);
+          return dd;
+        }
+        else if(Object.entries(obj)[0][0] == '_count'){
+          for(i=0;i<obj._count;i++){
+            let bb = iterator1.next().value;
+            //console.log(bb)
+            dd.push(bb);
+            //return [bb];
+          }
+          return dd;
+        }
+        else{
+          let aa = Object.entries(obj)[0][1];
+          //console.log(aa);
+          //console.log(bb.id);
+          //var dd = [];
+          for(i=0;i<comments_size;i++){
+            let bb = iterator1.next().value;
+            let cc = iterator2.next().value;
+            //console.log(bb.commenterId);
+            if(aa === bb.id || aa === bb.commenterId){
+              //console.log(bb.id);
+              //console.log(bb);
+              dd.push(bb);
+              //dd.push();
+              //return [bb];
+              //console.log(dd)
+
               //let bb = iterator1.next().value;
             }
           }
           return dd;
+          //}
         }
 
+          //console.log(Object.entries(obj)[0][1]);
+          //console.log(this.myMap_u.has(aa));
 
-        //console.log(Object.entries(obj)[0][1]);
-        //console.log(this.myMap_u.has(aa));
 
-
-    }
-
-    else if(category === 'comments') {
-      //if(findSpec.id === )
-      var i = 0;
-      var dd = [];
-      const iterator1 = this.myMap_c.values();
-      const iterator2 = this.myMap_c.keys();
-      let comments_size = this.myMap_c.size;
-      if(Object.keys(obj).length === 0){
-        for(i=0;i<DEFAULT_COUNT;i++){
-          let bb = iterator1.next().value;
-          let cc = iterator2.next().value;
-          //console.log(cc)
-          dd.push(bb);
-          //return dd;
-          //console.log(bb);
-        }
-        //console.log(dd);
-        return dd;
       }
-      else if(Object.entries(obj)[0][0] == '_count'){
-        for(i=0;i<obj._count;i++){
-          let bb = iterator1.next().value;
-          //console.log(bb)
-          dd.push(bb);
-          //return [bb];
-        }
-        return dd;
-      }
-      else{
-        let aa = Object.entries(obj)[0][1];
-        //console.log(aa);
-        //console.log(bb.id);
-        //var dd = [];
-        for(i=0;i<comments_size;i++){
-          let bb = iterator1.next().value;
-          let cc = iterator2.next().value;
-          //console.log(bb.commenterId);
-          if(aa === bb.id || aa === bb.commenterId){
-            //console.log(bb.id);
-            //console.log(bb);
-            dd.push(bb);
-            //dd.push();
-            //return [bb];
-            //console.log(dd)
-
-            //let bb = iterator1.next().value;
-          }
-        }
-        return dd;
-        //}
-      }
-
-        //console.log(Object.entries(obj)[0][1]);
-        //console.log(this.myMap_u.has(aa));
-
-
-    }
-
+  }
     //return [];
     //console.log(obj);
   }
@@ -303,8 +327,120 @@ export default class Blog544 {
   async remove(category, rmSpecs) {
     const obj = this.validator.validate(category, 'remove', rmSpecs);
 
+    if(category === 'users'){
+      let aa = Object.entries(obj)[0][1];
+      //console.log(aa);
+      //console.log(bb.id);
+      //var dd = [];
+      var x = 0;
+      const iterator1 = this.myMap_u.values();
+      const iterator2 = this.myMap_u.keys();
+
+      const iterator3 = this.myMap_a.values();
+      const iterator4 = this.myMap_a.keys();
+
+      const iterator5 = this.myMap_c.values();
+      const iterator6 = this.myMap_c.keys();
+
+      let article_size = this.myMap_a.size;
+      let comments_size = this.myMap_c.size;
+      let users_size = this.myMap_u.size;
+
+      var us_a = [];
+      var us_c = [];
+      for(let i=0;i<users_size;i++){
+        let bb = iterator1.next().value;
+        let cc = iterator2.next().value;
+        //console.log(bb.commenterId);
+        if(aa === bb.id){
+          for(let i=0;i<article_size;i++){
+            let ee = iterator3.next().value;
+            if(ee.authorId == bb.id){
+              us_a.push(ee.id)
+            }
+          }
+          for(let i=0;i<comments_size;i++){
+            let ff = iterator5.next().value;
+            if(ff.commenterId == bb.id){
+              us_c.push(ff.id)
+            }
+          }
+
+          /*error Handling*/
+          if(us_c.length > 0 || us_a.length > 0){
+            const msg = `user ${obj.id} referenced by commenterId for comments  ${us_c}`;
+            const msg1 = `user ${obj.id} referenced by authorId for articles  ${us_a}`;
+            throw [ new BlogError('BAD_ID', msg), new BlogError('BAD_ID', msg1)];
+          }
+          else{
+            let objte = this.myMap_u.get(cc);
+            this.myMap_u.delete(cc);
+          }
+          /*error Handling*/
+        }
+      }
+    }
+    else if(category === 'comments'){
+      let aa = Object.entries(obj)[0][1];
+      var x = 0;
+      const iterator1 = this.myMap_c.values();
+      const iterator2 = this.myMap_c.keys();
+      let users_size = this.myMap_c.size;
+      for(let i=0;i<users_size;i++){
+        let bb = iterator1.next().value;
+        let cc = iterator2.next().value;
+        if(aa === bb.id){
+          x = cc;
+          let objte = this.myMap_c.get(cc);
+          this.myMap_c.delete(cc);
+        }
+      }
+    }
+    else if(category === 'articles'){
+      let aa = Object.entries(obj)[0][1];
+      var x = 0;
+      const iterator1 = this.myMap_a.values();
+      const iterator2 = this.myMap_a.keys();
+
+      const iterator3 = this.myMap_c.values();
+      const iterator4 = this.myMap_c.keys();
 
 
+      let article_size = this.myMap_a.size;
+      let comments_size = this.myMap_c.size;
+
+      var us_c = [];
+
+      for(let i=0;i<article_size;i++){
+        let bb = iterator1.next().value;
+        let cc = iterator2.next().value;
+
+
+
+        if(aa === bb.id){
+
+          for(let i=0;i<comments_size;i++){
+
+            let ee = iterator3.next().value;
+            let ff = iterator4.next().value;
+            if(ee.id == cc){
+              us_c.push(ee.id)
+            }
+          }
+
+          if(us_c.lenght > 0){
+            const msg = `articles ${obj.id} referenced by commenter Id for comments  ${us_c}`;
+            //const msg1 = `user ${obj.id} referenced by authorId for articles  ${us_a}`;
+            throw [ new BlogError('BAD_ID', msg)];
+          }
+          else{
+            let objte = this.myMap_a.get(cc);
+            this.myMap_a.delete(cc);
+          }
+        }
+      }
+
+    }
 
     //@TODO
   }
@@ -336,7 +472,9 @@ export default class Blog544 {
           //console.log(cc);
           let objte = this.myMap_u.get(cc);
           //console.log(objte.lastName);
-          objte.lastName = String(Object.entries(obj)[1][1]);
+          let y = Object.entries(obj)[1][0];
+          //console.log(y);
+          objte[y] = String(Object.entries(obj)[1][1]);
           //console.log(this.myMap_u.get(cc));
           this.myMap_u.set(cc, objte);
           return [this.myMap_u.get(cc)];
@@ -370,7 +508,8 @@ export default class Blog544 {
           //console.log(cc);
           let objte = this.myMap_a.get(cc);
           //console.log(objte.lastName);
-          objte.lastName = String(Object.entries(obj)[1][1]);
+          let y = Object.entries(obj)[1][0];
+          objte[y] = String(Object.entries(obj)[1][1]);
           //console.log(this.myMap_u.get(cc));
           this.myMap_a.set(cc, objte);
           return [this.myMap_a.get(cc)];
@@ -401,7 +540,8 @@ export default class Blog544 {
           //console.log(cc);
           let objte = this.myMap_c.get(cc);
           //console.log(objte.lastName);
-          objte.lastName = String(Object.entries(obj)[1][1]);
+          let y = Object.entries(obj)[1][0];
+          objte[y] = String(Object.entries(obj)[1][1]);
           //console.log(this.myMap_u.get(cc));
           this.myMap_c.set(cc, objte);
           return [this.myMap_c.get(cc)];
