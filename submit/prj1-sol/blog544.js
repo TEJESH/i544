@@ -94,7 +94,19 @@ export default class Blog544 {
   //  else {
 
       if(category == 'users'){
+
+        const iterator1 = this.myMap_u.values();
+        let user_size = this.myMap_u.size;
+        for(let i=0;i<user_size;i++){
+          let bb = iterator1.next().value;
+          if(obj.id === bb.id){
+            const msg = `object with id ${obj.id} already exists for ${category}`;
+            throw [ new BlogError('EXISTS', msg)];
+          }
+
+        }
         let y = this.myMap_u.set(obj.id, obj);
+        return obj.id
       }
 
       else if(category == 'comments'){
@@ -104,20 +116,21 @@ export default class Blog544 {
         const iterator2 = this.myMap_u.keys();
         let user_size = this.myMap_u.size;
 
-        //for (i=0;i<user_size;i++){
+        for (i=0;i<user_size;i++){
           let bb = iterator1.next().value;
           //console.log(obj.commenterId);
-        //  if(obj.commenterId === bb.id){
+          if(obj.commenterId === bb.id){
             let a = (Math.random()*1000).toFixed(2);
             obj.id = a;
             let x = this.myMap_c.set(a, obj);
-        //    break;
-        //  }
+            break;
+          }
         /*  else{
             const msg = `object with commenterId ${obj.commenterId} does exists in users`;
             throw [ new BlogError('NOT EXISTS', msg)];
           }*/
-        //}
+        }
+        return obj.id
       }
 
 
@@ -143,7 +156,7 @@ export default class Blog544 {
           }*/
       //}
     //}
-
+    return obj.id
 
     //@TODO
   }
@@ -298,7 +311,7 @@ export default class Blog544 {
             let bb = iterator1.next().value;
             let cc = iterator2.next().value;
             //console.log(bb.commenterId);
-            if(aa === bb.id || aa === bb.commenterId){
+            if(aa === bb.id || aa === bb.commenterId | aa === bb.articleId){
               //console.log(bb.id);
               //console.log(bb);
               dd.push(bb);
