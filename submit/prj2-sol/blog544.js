@@ -65,9 +65,10 @@ export default class Blog544 {
     // Connection URL
     const url = 'mongodb://127.0.0.1:27017';
     const url1 = 'mongodb://localhost:27017';
+
     //console.log(options.dbUrl===url)
     //console.log(process.argv.slice(2)[0] === options.dbUrl)
-    if(options.dbUrl !== url && options.dbUrl !== url1){
+    if(options.dbUrl.match(/^(mongodb:(?:\/{2})?)(^localhost|\d{1,3}.{3}.{3}:[0-9]{5}$)/ig) === null){
       const msg = `Database is not correct`;
       throw [ new BlogError('Mongo DB link is not correct', msg)];
     }
@@ -281,6 +282,7 @@ export default class Blog544 {
     let b = Object.values(obj)[0]
     let c = 0
     let d = 0
+    //let aaa = 0
     //console.log(a,b)
     const aa = await this.find(category, {[a]:b});
     //console.log(aa.length)
@@ -291,20 +293,32 @@ export default class Blog544 {
     }
 
     else {
+      let aaa = 0
+      //console.log(aaa)
       let u = 0
       if (category === 'users') {
         u = this.collection1
-        c = await this.find('articles', {authorId:aa.id})
-        d = await this.find('comments', {commenterId:aa.id})
+        aaa = await this.find('users', rmSpecs)
+        c = await this.find('articles', {authorId:aaa[0].id})
+        d = await this.find('comments', {commenterId:aaa[0].id})
       } else if (category === 'articles') {
         u = this.collection2
-        d = await this.find('comments', {commenterId:aa.id})
+        aaa = await this.find('articles', rmSpecs)
+        d = await this.find('comments', {articleId:aaa[0].id})
+        //console.log(aa[0].id)
+        //console.log(aaa)
+        //console.log(d)
+        //console.log(d.length)
       } else if (category === 'comments') {
         u = this.collection3
       }
 
-      if(c||d){
-        const msg = `object having id ${obj.id} exists for Articles || comments`;
+      if((c.length !== 0 ||d.length !== 0) && (category==='users')){
+        const msg = `${category} object having id ${obj.id} exists for Articles ${c[0].id} || comments ${d[0].id}`;
+        throw [ new BlogError('EXIST', msg)];
+      }
+      else if((d.length !== 0) && (category==='articles')){
+        const msg = `${category} object having id ${obj.id} exists for comments ${d[0].id}`;
         throw [ new BlogError('EXIST', msg)];
       }
       else {
