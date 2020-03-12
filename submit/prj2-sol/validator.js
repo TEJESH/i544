@@ -35,6 +35,10 @@ export default class Validator {
       }
       else if (name.startsWith('_')) {
 	out[name] = value;
+	    if(name.startsWith('_id') ) {
+          const msg = `the internal mongo _id field is forbidden for users create`;
+          errors.push(new BlogError('BAD_FIELD', msg));
+        }
       }
       else if (info === undefined) {
 	const msg = `unknown ${category} field ${name} ${msgSuffix}`;

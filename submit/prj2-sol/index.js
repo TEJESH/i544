@@ -1,7 +1,7 @@
 #!/usr/bin/env nodejs
 // -*- mode: JavaScript; -*-
 
-//debugger; //uncomment to force loading into chrome debugger
+debugger; //uncomment to force loading into chrome debugger
 
 import assert from 'assert';
 import fs from 'fs';
@@ -14,6 +14,9 @@ import Blog from './blog544.js';
 
 const readFile = util.promisify(fs.readFile);
 const readdir = util.promisify(fs.readdir);
+
+//var mongo = require('mongodb');
+
 
 
 /************************* Top level routine ***************************/
