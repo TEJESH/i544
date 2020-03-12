@@ -67,7 +67,7 @@ export default class Blog544 {
     const url1 = 'mongodb://localhost:27017';
     //console.log(options.dbUrl===url)
     //console.log(process.argv.slice(2)[0] === options.dbUrl)
-    if(options.dbUrl !== url && options.dbUrl !== url1){
+    if(options.dbUrl.match(/^(mongodb:(?:\/{2})?)(^localhost|\d{1,3}.{3}.{3}:[0-9]{5}$)/ig) === null){
       const msg = `Database is not correct`;
       throw [ new BlogError('Mongo DB link is not correct', msg)];
     }
